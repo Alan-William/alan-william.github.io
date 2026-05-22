@@ -1,0 +1,2809 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>毛概刷题</title>
+  <meta name="theme-color" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="毛概刷题">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --surface-2: #eef4ff;
+      --text: #172033;
+      --muted: #64748b;
+      --border: #dbe3ef;
+      --primary: #2563eb;
+      --primary-strong: #1d4ed8;
+      --primary-soft: #dbeafe;
+      --accent: #0f766e;
+      --accent-soft: #ccfbf1;
+      --warning: #b45309;
+      --warning-soft: #fef3c7;
+      --danger: #dc2626;
+      --danger-soft: #fee2e2;
+      --shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+      --radius: 8px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #101624;
+      --surface: #172033;
+      --surface-2: #1f2b44;
+      --text: #eef4ff;
+      --muted: #a8b3c7;
+      --border: #2b3954;
+      --primary: #60a5fa;
+      --primary-strong: #93c5fd;
+      --primary-soft: #1e3a5f;
+      --accent: #5eead4;
+      --accent-soft: #123d3a;
+      --warning: #fbbf24;
+      --warning-soft: #3c2b0d;
+      --danger: #f87171;
+      --danger-soft: #4a1c1c;
+      --shadow: 0 16px 36px rgba(0, 0, 0, 0.24);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--bg);
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--text);
+      background:
+        linear-gradient(180deg, rgba(37, 99, 235, 0.10), transparent 340px),
+        var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", "Noto Sans SC", Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(18px);
+    }
+
+    [data-theme="dark"] .app-header {
+      background: rgba(23, 32, 51, 0.86);
+    }
+
+    .header-inner {
+      width: min(1180px, calc(100% - 32px));
+      min-height: 68px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: var(--radius);
+      color: #fff;
+      background: linear-gradient(135deg, #2563eb, #0f766e);
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.24);
+      flex: 0 0 auto;
+    }
+
+    .header-stats {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 auto;
+    }
+
+    .app-main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 24px auto 56px;
+    }
+
+    .section {
+      margin-bottom: 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .section-pad {
+      padding: 20px;
+    }
+
+    .home-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 290px;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .title-block h1 {
+      margin: 0 0 6px;
+      font-size: 28px;
+      line-height: 1.25;
+    }
+
+    .title-block p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .summary-panel {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      align-content: start;
+    }
+
+    .summary-item {
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface-2);
+    }
+
+    .summary-number {
+      font-weight: 800;
+      font-size: 22px;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .summary-label {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 14px;
+      align-items: end;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .select,
+    .search-input,
+    .blank-input {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+    }
+
+    .select,
+    .search-input {
+      padding: 0 12px;
+    }
+
+    .blank-input {
+      min-height: 108px;
+      padding: 12px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .select:focus,
+    .search-input:focus,
+    .blank-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+    }
+
+    .mode-row,
+    .chip-row,
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mode-btn,
+    .chip,
+    .btn,
+    .icon-btn {
+      min-height: 38px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease, color 0.16s ease;
+    }
+
+    .mode-btn {
+      padding: 0 14px;
+      font-weight: 700;
+    }
+
+    .chip {
+      padding: 0 12px;
+      font-size: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 16px;
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .icon-btn {
+      width: 38px;
+      padding: 0;
+      display: inline-grid;
+      place-items: center;
+      font-weight: 800;
+    }
+
+    .btn:hover,
+    .mode-btn:hover,
+    .chip:hover,
+    .icon-btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--primary);
+    }
+
+    .btn-primary,
+    .mode-btn.active,
+    .chip.active {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-strong);
+      color: #fff;
+    }
+
+    .btn-soft {
+      border-color: var(--primary-soft);
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+    }
+
+    [data-theme="dark"] .btn-soft {
+      color: var(--primary-strong);
+    }
+
+    .btn-danger {
+      border-color: var(--danger-soft);
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .btn:disabled,
+    .icon-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.48;
+      transform: none;
+    }
+
+    .toggle-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .switch {
+      width: 48px;
+      height: 28px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--border);
+      padding: 3px;
+      cursor: pointer;
+      transition: background 0.16s ease;
+    }
+
+    .switch::before {
+      content: "";
+      width: 20px;
+      height: 20px;
+      display: block;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 3px 8px rgba(15, 23, 42, 0.24);
+      transition: transform 0.16s ease;
+    }
+
+    .switch.on {
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+
+    .switch.on::before {
+      transform: translateX(20px);
+    }
+
+    .start-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .chapter-card {
+      min-height: 164px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .chapter-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      box-shadow: 0 16px 28px rgba(37, 99, 235, 0.13);
+    }
+
+    .chapter-title {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .chapter-subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      min-height: 42px;
+    }
+
+    .count-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .count-pill,
+    .type-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      background: var(--surface-2);
+      color: var(--muted);
+    }
+
+    .type-single {
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+    }
+
+    .type-multiple {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .type-judge {
+      background: var(--warning-soft);
+      color: var(--warning);
+    }
+
+    .type-blank {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .quiz-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 270px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .quiz-main {
+      min-width: 0;
+      display: grid;
+      gap: 14px;
+    }
+
+    .quiz-card,
+    .review-card,
+    .tools-card {
+      margin-bottom: 0;
+    }
+
+    .review-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .review-head h2 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .review-head span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .quiz-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .quiz-title {
+      min-width: 0;
+    }
+
+    .quiz-title h1 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.3;
+    }
+
+    .quiz-title p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .progress-track {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: var(--surface-2);
+      margin: 10px 0 18px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transition: width 0.24s ease;
+    }
+
+    .question-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .question-index {
+      color: var(--muted);
+      font-size: 14px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .question-text {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.8;
+      font-weight: 700;
+    }
+
+    .option-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .option {
+      width: 100%;
+      min-height: 54px;
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.16s ease, background 0.16s ease, transform 0.16s ease;
+    }
+
+    .option:hover {
+      transform: translateY(-1px);
+      border-color: var(--primary);
+      background: var(--surface-2);
+    }
+
+    .option.locked {
+      cursor: default;
+    }
+
+    .option.locked:hover {
+      transform: none;
+    }
+
+    .option.selected {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .option.correct {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .option.wrong {
+      border-color: var(--danger);
+      background: var(--danger-soft);
+    }
+
+    .marker {
+      width: 32px;
+      height: 32px;
+      display: inline-grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      font-weight: 900;
+      font-size: 13px;
+      background: var(--surface);
+    }
+
+    .option.selected .marker,
+    .option.correct .marker,
+    .option.wrong .marker {
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .option.selected .marker {
+      background: var(--primary);
+    }
+
+    .option.correct .marker {
+      background: var(--accent);
+    }
+
+    .option.wrong .marker {
+      background: var(--danger);
+    }
+
+    .option-text {
+      padding-top: 3px;
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-wrap: anywhere;
+    }
+
+    .feedback {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      font-size: 15px;
+    }
+
+    .feedback.good {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .feedback.bad {
+      border-color: var(--danger);
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .feedback strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .review-card .feedback {
+      margin-top: 0;
+    }
+
+    .study-tools {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .tools-card .study-tools,
+    .review-card .study-tools {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .ai-panel {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border: 1px solid var(--primary-soft);
+      border-radius: var(--radius);
+      background: var(--surface-2);
+    }
+
+    .ai-panel h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+
+    .ai-panel p {
+      margin: 0;
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.75;
+      white-space: pre-wrap;
+    }
+
+    .note-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .note-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: var(--surface);
+    }
+
+    .note-card h3 {
+      margin: 8px 0;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .quiz-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 18px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      flex-wrap: wrap;
+    }
+
+    .mobile-card-button {
+      display: none;
+    }
+
+    .quiz-main > .quiz-actions {
+      margin-top: 0;
+    }
+
+    .quiz-primary-actions {
+      margin-left: auto;
+    }
+
+    .side-panel {
+      position: sticky;
+      top: 92px;
+    }
+
+    .side-stat {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .side-stat .summary-item {
+      padding: 10px;
+      background: var(--surface);
+    }
+
+    .nav-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 6px;
+      max-height: 420px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .nav-dot {
+      height: 30px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .nav-dot.current {
+      border-color: var(--primary);
+      color: #fff;
+      background: var(--primary);
+    }
+
+    .nav-dot.answered {
+      border-color: var(--primary);
+      color: var(--primary-strong);
+      background: var(--primary-soft);
+    }
+
+    .nav-dot.correct {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .nav-dot.wrong {
+      border-color: var(--danger);
+      color: var(--danger);
+      background: var(--danger-soft);
+    }
+
+    .search-results {
+      margin-top: 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .search-row {
+      width: 100%;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: start;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .search-row:hover {
+      border-color: var(--primary);
+    }
+
+    .search-title {
+      font-weight: 700;
+      line-height: 1.55;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .small {
+      font-size: 13px;
+    }
+
+    .result-hero {
+      display: grid;
+      grid-template-columns: 230px minmax(0, 1fr);
+      gap: 22px;
+      align-items: center;
+    }
+
+    .score-ring {
+      width: 196px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin: 0 auto;
+      background:
+        radial-gradient(circle at center, var(--surface) 58%, transparent 60%),
+        conic-gradient(var(--primary) var(--score, 0%), var(--surface-2) 0);
+      border: 1px solid var(--border);
+    }
+
+    .score-ring strong {
+      display: block;
+      text-align: center;
+      font-size: 38px;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .score-ring span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .wrong-list {
+      margin-top: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .wrong-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: var(--surface);
+    }
+
+    .wrong-item h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .answer-line {
+      margin: 4px 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .answer-line strong {
+      color: var(--text);
+    }
+
+    .empty {
+      padding: 30px 20px;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      text-align: center;
+      color: var(--muted);
+      background: var(--surface);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 26px;
+      z-index: 50;
+      transform: translateX(-50%) translateY(16px);
+      opacity: 0;
+      pointer-events: none;
+      min-width: 220px;
+      max-width: min(520px, calc(100% - 32px));
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      background: #111827;
+      color: #fff;
+      text-align: center;
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.25);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .install-btn[hidden] {
+      display: none;
+    }
+
+    @media (max-width: 960px) {
+      .home-top,
+      .control-grid,
+      .quiz-layout,
+      .result-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .chapter-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .side-panel {
+        position: static;
+      }
+    }
+
+    @media (min-width: 760px) and (max-width: 1080px) {
+      .header-inner,
+      .app-main {
+        width: min(100% - 28px, 1000px);
+      }
+
+      body.quiz-mode .header-inner {
+        min-height: 56px;
+      }
+
+      body.quiz-mode .header-stats {
+        display: none;
+      }
+
+      body.quiz-mode .brand {
+        gap: 0;
+        font-size: 0;
+      }
+
+      body.quiz-mode .brand-mark {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+      }
+
+      body.quiz-mode .header-actions .btn {
+        min-height: 36px;
+        padding: 0 12px;
+        font-size: 13px;
+      }
+
+      body.quiz-mode .header-actions .icon-btn {
+        width: 36px;
+        min-height: 36px;
+      }
+
+      .quiz-layout {
+        grid-template-columns: minmax(0, 1fr) 224px;
+        gap: 14px;
+      }
+
+      .side-panel {
+        position: sticky;
+        top: 82px;
+      }
+
+      .side-stat {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-grid {
+        grid-template-columns: repeat(5, 1fr);
+        max-height: calc(100vh - 280px);
+      }
+
+      .quiz-title h1 {
+        font-size: 19px;
+      }
+
+      .question-text {
+        font-size: 17px;
+      }
+
+      .option-text {
+        font-size: 15px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .header-inner,
+      .app-main {
+        width: min(100% - 20px, 1180px);
+      }
+
+      .header-inner {
+        min-height: 62px;
+        gap: 8px;
+      }
+
+      .header-stats {
+        display: none;
+      }
+
+      .brand {
+        font-size: 16px;
+      }
+
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+      }
+
+      .header-actions {
+        gap: 6px;
+      }
+
+      .header-actions .btn {
+        min-height: 34px;
+        padding: 0 9px;
+        font-size: 12px;
+      }
+
+      .header-actions .icon-btn {
+        width: 34px;
+        min-height: 34px;
+      }
+
+      .app-main {
+        margin-top: 14px;
+        margin-bottom: 24px;
+        padding-bottom: 104px;
+      }
+
+      body.quiz-mode .app-header {
+        display: none;
+      }
+
+      body.quiz-mode .app-main {
+        width: 100%;
+        margin: 0;
+        padding: 8px 10px 84px;
+      }
+
+      body.quiz-mode .quiz-layout {
+        display: block;
+      }
+
+      body.quiz-mode .quiz-card {
+        border-top: 0;
+        border-left: 0;
+        border-right: 0;
+        border-radius: 0 0 var(--radius) var(--radius);
+      }
+
+      body.quiz-mode .quiz-card .quiz-top {
+        margin: -14px -14px 12px;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--border);
+        background: var(--surface);
+      }
+
+      body.quiz-mode .quiz-card .quiz-top > .btn {
+        min-height: 32px;
+        padding: 0 10px;
+        font-size: 13px;
+      }
+
+      body.quiz-mode .quiz-card .quiz-top > .icon-btn {
+        width: 32px;
+        min-height: 32px;
+      }
+
+      .title-block h1 {
+        font-size: 20px;
+      }
+
+      .section-pad {
+        padding: 14px;
+      }
+
+      .summary-panel,
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .quiz-main {
+        gap: 10px;
+      }
+
+      body.quiz-mode .review-card,
+      body.quiz-mode .tools-card,
+      body.quiz-mode .side-panel {
+        margin-top: 10px;
+      }
+
+      body.quiz-mode .side-panel {
+        margin-bottom: 82px;
+      }
+
+      body.quiz-mode .side-stat {
+        display: none;
+      }
+
+      .quiz-top {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+      }
+
+      .quiz-title {
+        text-align: center;
+      }
+
+      .quiz-title h1 {
+        font-size: 15px;
+      }
+
+      .quiz-title p {
+        font-size: 11px;
+      }
+
+      .question-head {
+        align-items: flex-start;
+        margin-bottom: 12px;
+      }
+
+      .question-text {
+        font-size: 15px;
+        line-height: 1.65;
+        margin-bottom: 14px;
+      }
+
+      .option {
+        min-height: 50px;
+        grid-template-columns: 30px minmax(0, 1fr);
+        gap: 10px;
+        padding: 10px;
+      }
+
+      .marker {
+        width: 30px;
+        height: 30px;
+      }
+
+      .option-text {
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .type-pill,
+      .question-index {
+        font-size: 12px;
+      }
+
+      .blank-input {
+        min-height: 132px;
+      }
+
+      .review-head {
+        margin-bottom: 10px;
+      }
+
+      .review-head h2 {
+        font-size: 15px;
+      }
+
+      .feedback,
+      .ai-panel {
+        padding: 12px;
+        font-size: 14px;
+      }
+
+      .study-tools {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .study-tools .btn {
+        min-width: 0;
+        padding: 0 10px;
+        font-size: 14px;
+      }
+
+      .search-row {
+        grid-template-columns: 1fr;
+      }
+
+      .quiz-actions {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 18;
+        display: grid;
+        grid-template-columns: minmax(76px, 1fr) auto minmax(108px, 1fr);
+        gap: 8px;
+        align-items: center;
+        margin: 0;
+        padding: 8px 14px calc(8px + env(safe-area-inset-bottom));
+        border: 0;
+        border-top: 1px solid var(--border);
+        border-radius: 0;
+        background: var(--surface);
+        box-shadow: 0 -10px 24px rgba(15, 23, 42, 0.1);
+      }
+
+      .quiz-actions .btn,
+      .quiz-actions .action-row {
+        width: auto;
+      }
+
+      .quiz-nav-actions {
+        display: none;
+      }
+
+      .mobile-card-button {
+        grid-column: 2;
+        grid-row: 1;
+        display: inline-flex;
+        min-width: 56px;
+        min-height: 44px;
+        padding: 0 4px;
+        border: 0;
+        background: transparent;
+        color: var(--primary);
+        cursor: pointer;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 800;
+        line-height: 1.15;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .mobile-card-button span:first-child {
+        font-size: 15px;
+      }
+
+      .quiz-primary-actions {
+        display: contents;
+        margin-left: 0;
+      }
+
+      .quiz-actions .action-row .btn {
+        flex: initial;
+      }
+
+      .quiz-primary-actions .btn {
+        min-height: 42px;
+        min-width: 82px;
+        padding: 0 12px;
+        font-size: 14px;
+      }
+
+      .quiz-primary-actions .btn-primary {
+        grid-column: 3;
+        grid-row: 1;
+        justify-self: end;
+        min-width: 108px;
+      }
+
+      .quiz-primary-actions .btn:not(.btn-primary) {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: start;
+      }
+
+      .quiz-actions.is-submitted {
+        padding: 8px 14px calc(8px + env(safe-area-inset-bottom));
+      }
+
+      .quiz-actions.is-submitted .quiz-nav-actions {
+        display: none;
+      }
+
+      .quiz-actions.is-submitted .quiz-primary-actions {
+        display: contents;
+      }
+
+      .nav-grid {
+        grid-template-columns: repeat(7, 1fr);
+        max-height: none;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-inner">
+      <button class="brand" type="button" onclick="goHome()" aria-label="返回首页">
+        <span class="brand-mark">毛</span>
+        <span>毛概刷题</span>
+      </button>
+      <div class="header-stats" id="headerStats"></div>
+      <div class="header-actions">
+        <button class="btn install-btn" type="button" onclick="promptInstall()" id="installButton" hidden>安装</button>
+        <button class="btn" type="button" onclick="renderNotes()">笔记本</button>
+        <button class="btn" type="button" onclick="renderSync()">同步</button>
+        <button class="icon-btn" type="button" onclick="toggleTheme()" id="themeButton" title="切换深浅色">日</button>
+        <button class="btn" type="button" onclick="resetLearningData()">重置</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-main" id="app"></main>
+  <div class="toast" id="toast"></div>
+
+  <script src="questions.js"></script>
+  <script>
+    const BANK = window.QUESTION_BANK || { chapters: [], typeLabels: {} };
+    const TYPE_ORDER = ["single", "multiple", "judge", "blank"];
+    const TYPE_NAMES = { single: "单选", multiple: "多选", judge: "判断", blank: "填空" };
+    const MODE_NAMES = { practice: "章节练习", exam: "模拟考试", wrong: "错题重练", favorite: "收藏练习" };
+    const STORE_KEY = "maogai-quiz-state-v5";
+
+    const allQuestions = BANK.chapters.flatMap(chapter => chapter.questions.map(q => ({ ...q, chapter })));
+    const questionMap = new Map(allQuestions.map(q => [q.id, q]));
+    const chapterMap = new Map(BANK.chapters.map(chapter => [chapter.id, chapter]));
+
+    let store = loadStore();
+    let state = {
+      view: "home",
+      mode: "practice",
+      chapterId: "all",
+      type: "all",
+      random: false,
+      search: ""
+    };
+    let session = null;
+    let tickTimer = null;
+    let toastTimer = null;
+    let syncTimer = null;
+    let syncing = false;
+    let installPromptEvent = null;
+    let explaining = false;
+
+    document.documentElement.dataset.theme = store.theme || "light";
+    setupPwa();
+    renderHome();
+
+    window.addEventListener("keydown", event => {
+      if (!session || state.view !== "quiz") return;
+      const tag = (event.target && event.target.tagName || "").toLowerCase();
+      if (["input", "textarea", "select"].includes(tag)) return;
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        moveQuestion(-1);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        moveQuestion(1);
+      } else if (event.key === "Enter") {
+        event.preventDefault();
+        primaryQuizAction();
+      } else if (/^[1-4]$/.test(event.key)) {
+        const q = currentQuestion();
+        const option = q && (q.type === "judge" ? ["对", "错"][Number(event.key) - 1] : "ABCD"[Number(event.key) - 1]);
+        if (option) selectOption(option);
+      }
+    });
+
+    function loadStore() {
+      const fallback = { favorites: [], wrong: [], notes: [], explanations: {}, attempts: {}, history: [], lastSession: null, sessions: {}, sync: null, theme: "light" };
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
+        return {
+          ...fallback,
+          ...saved,
+          favorites: saved.favorites || [],
+          wrong: saved.wrong || [],
+          notes: saved.notes || [],
+          explanations: saved.explanations || {},
+          attempts: saved.attempts || {},
+          history: saved.history || [],
+          sessions: saved.sessions || {},
+          sync: saved.sync || null
+        };
+      } catch (error) {
+        return fallback;
+      }
+    }
+
+    function saveStore(options = {}) {
+      store.updatedAt = new Date().toISOString();
+      localStorage.setItem(STORE_KEY, JSON.stringify(store));
+      updateHeader();
+      if (options.sync !== false) scheduleAutoSync();
+    }
+
+    function isStaticPagesHost() {
+      return location.hostname.endsWith(".github.io");
+    }
+
+    function setupPwa() {
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./sw.js").catch(error => {
+            console.warn("Service worker registration failed", error);
+          });
+        });
+      }
+
+      window.addEventListener("beforeinstallprompt", event => {
+        event.preventDefault();
+        installPromptEvent = event;
+        const button = document.getElementById("installButton");
+        if (button) button.hidden = false;
+      });
+
+      window.addEventListener("appinstalled", () => {
+        installPromptEvent = null;
+        const button = document.getElementById("installButton");
+        if (button) button.hidden = true;
+        showToast("已添加到桌面");
+      });
+    }
+
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+      })[char]);
+    }
+
+    function normalize(value) {
+      return String(value ?? "")
+        .trim()
+        .replace(/\s+/g, "")
+        .replace(/[，。；;、,.]/g, "")
+        .toLowerCase();
+    }
+
+    function uniquePush(list, id) {
+      if (!list.includes(id)) list.push(id);
+    }
+
+    function removeItem(list, id) {
+      const index = list.indexOf(id);
+      if (index >= 0) list.splice(index, 1);
+    }
+
+    function updateHeader() {
+      const attempted = Object.keys(store.attempts || {}).length;
+      const correct = Object.values(store.attempts || {}).filter(item => item.lastCorrect).length;
+      const accuracy = attempted ? Math.round(correct / attempted * 100) : 0;
+      const header = document.getElementById("headerStats");
+      if (header) {
+        header.innerHTML = `
+          <span>题库 ${allQuestions.length} 题</span>
+          <span>已练 ${attempted} 题</span>
+          <span>正确率 ${accuracy}%</span>
+          <span>错题 ${store.wrong.length} 题</span>
+          <span>收藏 ${store.favorites.length} 题</span>
+          <span>笔记 ${store.notes.length} 条</span>
+          <span>${store.sync?.username ? "已同步" : "未登录"}</span>
+        `;
+      }
+      const themeButton = document.getElementById("themeButton");
+      if (themeButton) themeButton.textContent = (store.theme || "light") === "dark" ? "夜" : "日";
+    }
+
+    function renderHome() {
+      state.view = "home";
+      document.body.classList.remove("quiz-mode");
+      stopTicker();
+      updateHeader();
+
+      const attempted = Object.keys(store.attempts || {}).length;
+      const correct = Object.values(store.attempts || {}).filter(item => item.lastCorrect).length;
+      const accuracy = attempted ? Math.round(correct / attempted * 100) : 0;
+      const available = collectQuestions();
+      const canResume = getResumeSession() !== null;
+
+      document.getElementById("app").innerHTML = `
+        <section class="section section-pad">
+          <div class="home-top">
+            <div class="title-block">
+              <h1>毛泽东思想和中国特色社会主义理论体系概论</h1>
+              <p>共 ${allQuestions.length} 题，覆盖 ${BANK.chapters.length} 个章节，支持练习、考试、错题和收藏。</p>
+            </div>
+            <div class="summary-panel">
+              ${summaryItem(allQuestions.length, "题库总量")}
+              ${summaryItem(attempted, "已练题目")}
+              ${summaryItem(accuracy + "%", "最近正确率")}
+              ${summaryItem(store.wrong.length, "错题本")}
+              ${summaryItem(store.notes.length, "笔记")}
+              ${summaryItem(store.sync?.username || "未登录", "多端同步")}
+            </div>
+          </div>
+        </section>
+
+        <section class="section section-pad">
+          <div class="field" style="margin-bottom: 14px;">
+            <label>模式</label>
+            <div class="mode-row">
+              ${modeButton("practice")}
+              ${modeButton("exam")}
+              ${modeButton("wrong")}
+              ${modeButton("favorite")}
+            </div>
+          </div>
+
+          <div class="control-grid">
+            <div class="field">
+              <label>章节</label>
+              <select class="select" onchange="setChapter(this.value)">
+                <option value="all"${state.chapterId === "all" ? " selected" : ""}>全部章节</option>
+                ${BANK.chapters.map(chapter => `<option value="${chapter.id}"${state.chapterId === chapter.id ? " selected" : ""}>${esc(chapter.title)} ${esc(chapter.subtitle)}</option>`).join("")}
+              </select>
+            </div>
+            <div class="field">
+              <label>题型</label>
+              <div class="chip-row">
+                ${typeChip("all", "全部")}
+                ${TYPE_ORDER.map(type => typeChip(type, TYPE_NAMES[type])).join("")}
+              </div>
+            </div>
+            <div class="field">
+              <label>顺序</label>
+              <div class="toggle-line">
+                <span>${state.random ? "随机出题" : "按题库顺序"}</span>
+                <button class="switch ${state.random ? "on" : ""}" type="button" onclick="toggleRandom()" aria-label="切换随机出题"></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="field" style="margin-top: 14px;">
+            <label>搜索</label>
+            <input class="search-input" value="${esc(state.search)}" oninput="updateSearch(this.value)" placeholder="输入关键词、答案或选项">
+          </div>
+
+          <div class="start-line">
+            <span id="availableCount">当前范围 ${available.length} 题</span>
+            <div class="action-row">
+              <button class="btn btn-soft" type="button" onclick="resumeLastSession()" ${canResume ? "" : "disabled"}>继续上次</button>
+              <button class="btn btn-primary" type="button" onclick="startSession()">开始刷题</button>
+            </div>
+          </div>
+
+          <div id="searchPreview">${renderSearchResults(available, Boolean(state.search.trim()))}</div>
+        </section>
+
+        <section class="section section-pad">
+          <div class="quiz-top">
+            <div class="quiz-title">
+              <h1>章节题库</h1>
+              <p>点击章节会按当前模式、题型和顺序设置开始。</p>
+            </div>
+            <button class="btn" type="button" onclick="startSession({ chapterId: 'all' })">练全部</button>
+          </div>
+          <div class="chapter-grid">
+            ${BANK.chapters.map(renderChapterCard).join("")}
+          </div>
+        </section>
+      `;
+    }
+
+    function summaryItem(number, label) {
+      return `<div class="summary-item"><div class="summary-number">${esc(number)}</div><div class="summary-label">${esc(label)}</div></div>`;
+    }
+
+    function modeButton(mode) {
+      return `<button class="mode-btn ${state.mode === mode ? "active" : ""}" type="button" onclick="setMode('${mode}')">${MODE_NAMES[mode]}</button>`;
+    }
+
+    function typeChip(type, label) {
+      return `<button class="chip ${state.type === type ? "active" : ""}" type="button" onclick="setType('${type}')">${esc(label)}</button>`;
+    }
+
+    function renderChapterCard(chapter) {
+      const ids = chapter.questions.map(q => q.id);
+      const done = ids.filter(id => store.attempts[id]).length;
+      const percent = chapter.counts.total ? Math.round(done / chapter.counts.total * 100) : 0;
+      return `
+        <button class="chapter-card" type="button" onclick="startSession({ chapterId: '${chapter.id}' })">
+          <div>
+            <h2 class="chapter-title">${esc(chapter.title)}</h2>
+            <p class="chapter-subtitle">${esc(chapter.subtitle)}</p>
+          </div>
+          <div>
+            <div class="count-row">
+              <span class="count-pill">${chapter.counts.total} 题</span>
+              <span class="count-pill">进度 ${percent}%</span>
+              ${chapter.counts.blank ? `<span class="count-pill">填空 ${chapter.counts.blank}</span>` : ""}
+            </div>
+            <div class="count-row">
+              <span class="type-pill type-single">单 ${chapter.counts.single}</span>
+              <span class="type-pill type-multiple">多 ${chapter.counts.multiple}</span>
+              <span class="type-pill type-judge">判 ${chapter.counts.judge}</span>
+            </div>
+          </div>
+        </button>
+      `;
+    }
+
+    function renderSearchResults(list, shouldShow) {
+      if (!shouldShow) return "";
+      if (!list.length) return `<div class="search-results"><div class="empty">没有匹配的题目</div></div>`;
+      const shown = list.slice(0, 20);
+      return `
+        <div class="search-results">
+          ${shown.map(q => `
+            <button class="search-row" type="button" onclick="startFocusedQuestion('${q.id}')">
+              <span class="type-pill type-${q.type}">${esc(q.typeLabel)}</span>
+              <span>
+                <span class="search-title">${esc(q.stem)}</span>
+                <span class="muted small">${esc(q.chapterTitle)} · 第 ${q.sourceNo} 题</span>
+              </span>
+              <span class="muted small">开始</span>
+            </button>
+          `).join("")}
+          ${list.length > shown.length ? `<div class="muted small">还有 ${list.length - shown.length} 题未显示，可继续缩小关键词。</div>` : ""}
+        </div>
+      `;
+    }
+
+    function collectQuestions(overrides = {}) {
+      const mode = overrides.mode ?? state.mode;
+      const chapterId = overrides.chapterId ?? state.chapterId;
+      const type = overrides.type ?? state.type;
+      const search = overrides.search ?? state.search;
+      const keyword = normalize(search);
+
+      return allQuestions.filter(q => {
+        if (chapterId !== "all" && q.chapterId !== chapterId) return false;
+        if (type !== "all" && q.type !== type) return false;
+        if (mode === "wrong" && !store.wrong.includes(q.id)) return false;
+        if (mode === "favorite" && !store.favorites.includes(q.id)) return false;
+        if (keyword) {
+          const haystack = normalize([
+            q.stem,
+            q.answer,
+            q.chapterTitle,
+            q.chapterSubtitle,
+            ...q.options.map(option => option.text)
+          ].join(" "));
+          if (!haystack.includes(keyword)) return false;
+        }
+        return true;
+      });
+    }
+
+    function setMode(mode) {
+      state.mode = mode;
+      renderHome();
+    }
+
+    function setChapter(chapterId) {
+      state.chapterId = chapterId;
+      renderHome();
+    }
+
+    function setType(type) {
+      state.type = type;
+      renderHome();
+    }
+
+    function toggleRandom() {
+      state.random = !state.random;
+      renderHome();
+    }
+
+    function updateSearch(value) {
+      state.search = value;
+      const list = collectQuestions();
+      const count = document.getElementById("availableCount");
+      const preview = document.getElementById("searchPreview");
+      if (count) count.textContent = `当前范围 ${list.length} 题`;
+      if (preview) preview.innerHTML = renderSearchResults(list, Boolean(state.search.trim()));
+    }
+
+    function startSession(overrides = {}) {
+      const next = { ...state, ...overrides };
+      const saved = getResumeSession(next);
+      if (saved && !overrides.forceNew) {
+        resumeSession(saved);
+        return;
+      }
+      let questions = collectQuestions(next);
+      if (next.random) questions = shuffle(questions);
+      beginSession(questions, next);
+    }
+
+    function startFocusedQuestion(id) {
+      const q = questionMap.get(id);
+      if (!q) return;
+      const list = collectQuestions({ mode: "practice", search: "" }).filter(item => item.id !== id);
+      beginSession([q, ...list], { ...state, mode: "practice", search: "" });
+    }
+
+    function beginSession(questions, options) {
+      if (!questions.length) {
+        showToast("当前范围没有可练习的题目");
+        return;
+      }
+      const chapter = options.chapterId && options.chapterId !== "all" ? chapterMap.get(options.chapterId) : null;
+      session = {
+        id: Date.now(),
+        scopeKey: sessionScopeKey(options),
+        mode: options.mode || "practice",
+        chapterId: options.chapterId || "all",
+        type: options.type || "all",
+        random: Boolean(options.random),
+        title: chapter ? `${chapter.title} · ${chapter.subtitle}` : "全部章节",
+        questionIds: questions.map(q => q.id),
+        current: 0,
+        answers: {},
+        submitted: {},
+        results: {},
+        startedAt: Date.now(),
+        finishedAt: null
+      };
+      state.view = "quiz";
+      saveSession();
+      renderQuiz();
+      scrollQuizToTop();
+      startTicker();
+    }
+
+    function sessionScopeKey(options) {
+      const mode = options.mode || "practice";
+      const chapterId = options.chapterId || "all";
+      const type = options.type || "all";
+      const random = options.random ? "random" : "ordered";
+      const search = normalize(options.search || "");
+      return [mode, chapterId, type, random, search].join("|");
+    }
+
+    function isValidSession(saved) {
+      if (!saved || saved.finishedAt) return null;
+      const valid = Array.isArray(saved.questionIds) && saved.questionIds.length && saved.questionIds.every(id => questionMap.has(id));
+      return valid ? saved : null;
+    }
+
+    function getResumeSession(options = null) {
+      if (options) return isValidSession(store.sessions?.[sessionScopeKey(options)]);
+      return isValidSession(store.lastSession);
+    }
+
+    function resumeLastSession() {
+      const saved = getResumeSession();
+      if (!saved) {
+        showToast("没有可继续的练习");
+        return;
+      }
+      resumeSession(saved);
+    }
+
+    function resumeSession(saved) {
+      session = saved;
+      session.scopeKey = session.scopeKey || sessionScopeKey(session);
+      state.view = "quiz";
+      renderQuiz();
+      scrollQuizToTop();
+      startTicker();
+    }
+
+    function saveSession() {
+      if (!session) return;
+      session.updatedAt = new Date().toISOString();
+      session.scopeKey = session.scopeKey || sessionScopeKey(session);
+      store.lastSession = session;
+      store.sessions = store.sessions || {};
+      store.sessions[session.scopeKey] = session;
+      saveStore();
+    }
+
+    function shuffle(list) {
+      const copy = list.slice();
+      for (let index = copy.length - 1; index > 0; index -= 1) {
+        const randomIndex = Math.floor(Math.random() * (index + 1));
+        [copy[index], copy[randomIndex]] = [copy[randomIndex], copy[index]];
+      }
+      return copy;
+    }
+
+    function renderQuiz() {
+      if (!session) {
+        renderHome();
+        return;
+      }
+      document.body.classList.add("quiz-mode");
+      updateHeader();
+      const q = currentQuestion();
+      if (!q) {
+        renderResult();
+        return;
+      }
+
+      const total = session.questionIds.length;
+      const index = session.current;
+      const answered = session.questionIds.filter(id => isAnswered(questionMap.get(id), session.answers[id])).length;
+      const submitted = Boolean(session.submitted[q.id]);
+      const progress = Math.round((index + 1) / total * 100);
+      const favorite = store.favorites.includes(q.id);
+      const result = session.results[q.id];
+
+      document.getElementById("app").innerHTML = `
+        <div class="quiz-layout">
+          <div class="quiz-main">
+            <section class="section section-pad quiz-card">
+              <div class="quiz-top">
+                <button class="btn" type="button" onclick="goHome()">返回</button>
+                <div class="quiz-title">
+                  <h1>${esc(MODE_NAMES[session.mode])}</h1>
+                  <p>${esc(session.title)} · ${answered}/${total} 已作答 · <span id="timerText">${elapsedText(Date.now() - session.startedAt)}</span></p>
+                </div>
+                <button class="icon-btn" type="button" onclick="toggleFavorite('${q.id}')" title="收藏本题">${favorite ? "★" : "☆"}</button>
+              </div>
+
+              <div class="progress-track"><div class="progress-fill" style="width: ${progress}%"></div></div>
+
+              <div class="question-head">
+                <span class="type-pill type-${q.type}">${esc(q.typeLabel)}</span>
+                <span class="question-index">第 ${index + 1} / ${total} 题</span>
+              </div>
+
+              <p class="question-text">${esc(q.stem)}</p>
+              ${renderAnswerArea(q, submitted)}
+            </section>
+            ${submitted && session.mode !== "exam" ? renderReviewCard(q, result) : ""}
+            ${renderToolCard(q)}
+            ${renderQuizActions(q, submitted)}
+          </div>
+
+          <aside class="section section-pad side-panel">
+            <div class="side-stat">
+              ${summaryItem(total, "本轮题量")}
+              ${summaryItem(answered, "已作答")}
+              ${summaryItem(countSessionResults().correct, "答对")}
+              ${summaryItem(countSessionResults().wrong, "答错")}
+            </div>
+            <div class="field">
+              <label>题号</label>
+              <div class="nav-grid">
+                ${session.questionIds.map((id, navIndex) => renderNavDot(id, navIndex)).join("")}
+              </div>
+            </div>
+          </aside>
+        </div>
+      `;
+      updateTimerText();
+    }
+
+    function currentQuestion() {
+      return session ? questionMap.get(session.questionIds[session.current]) : null;
+    }
+
+    function scrollQuizToTop() {
+      requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: "auto" }));
+    }
+
+    function scrollToQuestionCard() {
+      const panel = document.querySelector(".side-panel");
+      if (panel) panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function renderReviewCard(q, result) {
+      return `
+        <section class="section section-pad review-card">
+          <div class="review-head">
+            <h2>\u7b54\u6848\u4e0e\u7ed3\u679c</h2>
+            <span>\u7b2c ${session.current + 1} / ${session.questionIds.length} \u9898</span>
+          </div>
+          ${renderFeedback(q, result)}
+        </section>
+      `;
+    }
+
+    function renderToolCard(q) {
+      const hasExplanation = Boolean(store.explanations[q.id]);
+      return `
+        <section class="section section-pad tools-card">
+          <div class="review-head">
+            <h2>\u89e3\u6790\u4e0e\u7b14\u8bb0</h2>
+            <span>${hasExplanation ? "\u5df2\u6709 AI \u89e3\u6790" : "\u53ef\u968f\u65f6\u4fdd\u5b58"}</span>
+          </div>
+          ${renderStudyTools(q)}
+        </section>
+      `;
+    }
+
+    function renderAnswerArea(q, submitted) {
+      if (q.type === "blank") {
+        const answer = session.answers[q.id] || "";
+        const locked = submitted && session.mode !== "exam";
+        return `
+          <textarea class="blank-input" ${locked ? "disabled" : ""} oninput="setBlankAnswer(this.value)" placeholder="输入答案后提交">${esc(answer)}</textarea>
+        `;
+      }
+
+      const options = q.type === "judge"
+        ? [{ key: "对", text: "正确" }, { key: "错", text: "错误" }]
+        : q.options;
+      return `
+        <div class="option-list">
+          ${options.map(option => renderOption(q, option, submitted)).join("")}
+        </div>
+      `;
+    }
+
+    function renderOption(q, option, submitted) {
+      const answer = session.answers[q.id];
+      const selected = q.type === "multiple"
+        ? Array.isArray(answer) && answer.includes(option.key)
+        : answer === option.key;
+      const locked = submitted && session.mode !== "exam";
+      const isCorrectOption = q.type === "multiple"
+        ? q.answer.includes(option.key)
+        : q.answer === option.key;
+      let className = "option";
+      if (selected) className += " selected";
+      if (locked) className += " locked";
+      if (submitted && session.mode !== "exam") {
+        if (isCorrectOption) className += " correct";
+        else if (selected) className += " wrong";
+      }
+      return `
+        <button class="${className}" type="button" onclick="selectOption('${option.key}')" ${locked ? "disabled" : ""}>
+          <span class="marker">${esc(option.key)}</span>
+          <span class="option-text">${esc(option.text)}</span>
+        </button>
+      `;
+    }
+
+    function renderFeedback(q, result) {
+      const ok = result && result.correct;
+      return `
+        <div class="feedback ${ok ? "good" : "bad"}">
+          <strong>${ok ? "回答正确" : "回答错误"}</strong>
+          正确答案：${esc(formatCorrectAnswer(q))}
+        </div>
+      `;
+    }
+
+    function renderStudyTools(q) {
+      const hasNote = store.notes.some(note => note.questionId === q.id);
+      const explanation = store.explanations[q.id];
+      return `
+        <div class="study-tools">
+          <button class="btn btn-soft" type="button" onclick="explainCurrent()" ${explaining ? "disabled" : ""}>${explaining ? "解析中..." : "AI解析本题"}</button>
+          <button class="btn" type="button" onclick="addCurrentToNotes()">${hasNote ? "已加入笔记" : "加入笔记"}</button>
+        </div>
+        ${explanation ? `
+          <div class="ai-panel">
+            <h3>AI解析</h3>
+            <p>${esc(explanation)}</p>
+          </div>
+        ` : ""}
+      `;
+    }
+
+    function renderQuizActions(q, submitted) {
+      const isLast = session.current === session.questionIds.length - 1;
+      if (session.mode === "exam") {
+        return `
+          <div class="quiz-actions">
+            <div class="action-row quiz-nav-actions">
+              <button class="btn" type="button" onclick="moveQuestion(-1)" ${session.current === 0 ? "disabled" : ""}>\u4e0a\u4e00\u9898</button>
+              <button class="btn" type="button" onclick="moveQuestion(1)" ${isLast ? "disabled" : ""}>\u4e0b\u4e00\u9898</button>
+            </div>
+            <button class="mobile-card-button" type="button" onclick="scrollToQuestionCard()" aria-label="\u6253\u5f00\u7b54\u9898\u5361">
+              <span>${session.current + 1}/${session.questionIds.length}</span>
+              <span>\u7b54\u9898\u5361</span>
+            </button>
+            <div class="action-row quiz-primary-actions">
+              <button class="btn btn-primary" type="button" onclick="finishSession()">\u4ea4\u5377</button>
+            </div>
+          </div>
+        `;
+      }
+      return `
+        <div class="quiz-actions ${submitted ? "is-submitted" : ""}">
+          <div class="action-row quiz-nav-actions">
+            <button class="btn" type="button" onclick="moveQuestion(-1)" ${session.current === 0 ? "disabled" : ""}>\u4e0a\u4e00\u9898</button>
+            <button class="btn" type="button" onclick="moveQuestion(1)" ${isLast ? "disabled" : ""}>\u4e0b\u4e00\u9898</button>
+          </div>
+          <button class="mobile-card-button" type="button" onclick="scrollToQuestionCard()" aria-label="\u6253\u5f00\u7b54\u9898\u5361">
+            <span>${session.current + 1}/${session.questionIds.length}</span>
+            <span>\u7b54\u9898\u5361</span>
+          </button>
+          <div class="action-row quiz-primary-actions">
+            ${submitted ? `<button class="btn btn-primary" type="button" onclick="primaryQuizAction()">${isLast ? "\u67e5\u770b\u7ed3\u679c" : "\u4e0b\u4e00\u9898"}</button>` : `<button class="btn btn-primary" type="button" onclick="submitCurrent()">\u63d0\u4ea4\u7b54\u6848</button>`}
+            ${submitted ? `<button class="btn" type="button" onclick="redoCurrent()">\u91cd\u505a\u672c\u9898</button>` : ""}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderNavDot(id, navIndex) {
+      const answered = isAnswered(questionMap.get(id), session.answers[id]);
+      const result = session.results[id];
+      let className = "nav-dot";
+      if (navIndex === session.current) className += " current";
+      else if (result) className += result.correct ? " correct" : " wrong";
+      else if (answered) className += " answered";
+      return `<button class="${className}" type="button" onclick="jumpQuestion(${navIndex})">${navIndex + 1}</button>`;
+    }
+
+    function selectOption(key) {
+      const q = currentQuestion();
+      if (!q || (session.submitted[q.id] && session.mode !== "exam")) return;
+      if (q.type === "multiple") {
+        const current = Array.isArray(session.answers[q.id]) ? session.answers[q.id].slice() : [];
+        if (current.includes(key)) removeItem(current, key);
+        else current.push(key);
+        session.answers[q.id] = current.sort();
+      } else {
+        session.answers[q.id] = key;
+      }
+      saveSession();
+      renderQuiz();
+    }
+
+    function setBlankAnswer(value) {
+      const q = currentQuestion();
+      if (!q || (session.submitted[q.id] && session.mode !== "exam")) return;
+      session.answers[q.id] = value;
+      saveSession();
+    }
+
+    function submitCurrent() {
+      const q = currentQuestion();
+      if (!q) return;
+      const answer = session.answers[q.id];
+      if (!isAnswered(q, answer)) {
+        showToast("请先作答");
+        return;
+      }
+      const correct = scoreAnswer(q, answer);
+      session.submitted[q.id] = true;
+      session.results[q.id] = { correct, answer: storedAnswer(answer), at: Date.now() };
+      recordAttempt(q, answer, correct);
+      saveSession();
+      renderQuiz();
+    }
+
+    function redoCurrent() {
+      const q = currentQuestion();
+      if (!q) return;
+      delete session.submitted[q.id];
+      delete session.results[q.id];
+      delete session.answers[q.id];
+      saveSession();
+      renderQuiz();
+      scrollQuizToTop();
+    }
+
+    function primaryQuizAction() {
+      if (!session) return;
+      const q = currentQuestion();
+      if (session.mode === "exam") {
+        if (session.current === session.questionIds.length - 1) finishSession();
+        else moveQuestion(1);
+        return;
+      }
+      if (!session.submitted[q.id]) {
+        submitCurrent();
+      } else if (session.current === session.questionIds.length - 1) {
+        finishSession();
+      } else {
+        moveQuestion(1);
+      }
+    }
+
+    function moveQuestion(delta) {
+      if (!session) return;
+      const next = Math.max(0, Math.min(session.questionIds.length - 1, session.current + delta));
+      if (next === session.current) return;
+      session.current = next;
+      saveSession();
+      renderQuiz();
+      scrollQuizToTop();
+    }
+
+    function jumpQuestion(index) {
+      if (!session) return;
+      session.current = Math.max(0, Math.min(session.questionIds.length - 1, index));
+      saveSession();
+      renderQuiz();
+      scrollQuizToTop();
+    }
+
+    function isAnswered(q, answer) {
+      if (!q) return false;
+      if (q.type === "multiple") return Array.isArray(answer) && answer.length > 0;
+      return normalize(answer).length > 0;
+    }
+
+    function scoreAnswer(q, answer) {
+      if (!isAnswered(q, answer)) return false;
+      if (q.type === "multiple") return storedAnswer(answer) === q.answer.split("").sort().join("");
+      if (q.type === "blank") return normalize(answer) === normalize(q.answer);
+      return String(answer) === q.answer;
+    }
+
+    function storedAnswer(answer) {
+      return Array.isArray(answer) ? answer.slice().sort().join("") : String(answer ?? "").trim();
+    }
+
+    function recordAttempt(q, answer, correct) {
+      const existing = store.attempts[q.id] || { times: 0, correctTimes: 0, wrongTimes: 0 };
+      existing.times += 1;
+      existing.lastAnswer = storedAnswer(answer);
+      existing.lastCorrect = correct;
+      existing.lastAt = new Date().toISOString();
+      if (correct) {
+        existing.correctTimes += 1;
+        removeItem(store.wrong, q.id);
+      } else {
+        existing.wrongTimes += 1;
+        uniquePush(store.wrong, q.id);
+      }
+      store.attempts[q.id] = existing;
+      saveStore();
+    }
+
+    function questionSnapshot(q) {
+      return {
+        id: q.id,
+        chapterTitle: q.chapterTitle,
+        chapterSubtitle: q.chapterSubtitle,
+        sourceNo: q.sourceNo,
+        type: q.type,
+        typeLabel: q.typeLabel,
+        stem: q.stem,
+        options: q.options,
+        answer: q.answer,
+        answerText: formatCorrectAnswer(q)
+      };
+    }
+
+    function addCurrentToNotes() {
+      const q = currentQuestion();
+      if (!q) return;
+      const existing = store.notes.find(note => note.questionId === q.id);
+      if (existing) {
+        existing.updatedAt = new Date().toISOString();
+        existing.explanation = store.explanations[q.id] || existing.explanation || "";
+        showToast("已更新笔记");
+      } else {
+        store.notes.unshift({
+          id: `note-${Date.now()}`,
+          questionId: q.id,
+          question: questionSnapshot(q),
+          answer: formatCorrectAnswer(q),
+          explanation: store.explanations[q.id] || "",
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        });
+        showToast("已加入笔记");
+      }
+      saveStore();
+      renderQuiz();
+    }
+
+    function removeNote(noteId) {
+      store.notes = store.notes.filter(note => note.id !== noteId);
+      saveStore();
+      renderNotes();
+    }
+
+    function renderNotes() {
+      state.view = "notes";
+      document.body.classList.remove("quiz-mode");
+      stopTicker();
+      updateHeader();
+      const notes = store.notes || [];
+      document.getElementById("app").innerHTML = `
+        <section class="section section-pad">
+          <div class="quiz-top">
+            <button class="btn" type="button" onclick="renderHome()">返回</button>
+            <div class="quiz-title">
+              <h1>笔记本</h1>
+              <p>已收藏 ${notes.length} 道题，数据保存在当前浏览器。</p>
+            </div>
+            <button class="btn btn-soft" type="button" onclick="exportNotes()" ${notes.length ? "" : "disabled"}>导出</button>
+          </div>
+          ${notes.length ? `
+            <div class="note-grid">
+              ${notes.map(renderNoteCard).join("")}
+            </div>
+          ` : `<div class="empty">还没有笔记。刷题时点击“加入笔记”即可保存。</div>`}
+        </section>
+      `;
+    }
+
+    function renderNoteCard(note) {
+      const q = note.question || questionMap.get(note.questionId) || {};
+      return `
+        <article class="note-card">
+          <span class="type-pill type-${q.type || "single"}">${esc(q.typeLabel || "")}</span>
+          <h3>${esc(q.stem || "")}</h3>
+          <p class="answer-line">章节：<strong>${esc(q.chapterTitle || "")}</strong></p>
+          <p class="answer-line">正确答案：<strong>${esc(note.answer || q.answerText || "")}</strong></p>
+          ${note.explanation ? `<div class="ai-panel"><h3>AI解析</h3><p>${esc(note.explanation)}</p></div>` : ""}
+          <div class="action-row" style="margin-top: 12px;">
+            <button class="btn" type="button" onclick="startFocusedQuestion('${note.questionId}')">练这题</button>
+            <button class="btn btn-danger" type="button" onclick="removeNote('${note.id}')">删除</button>
+          </div>
+        </article>
+      `;
+    }
+
+    function exportNotes() {
+      const lines = (store.notes || []).map((note, index) => {
+        const q = note.question || {};
+        return [
+          `# ${index + 1}. ${q.typeLabel || ""} ${q.chapterTitle || ""}`,
+          "",
+          q.stem || "",
+          "",
+          q.options && q.options.length ? q.options.map(option => `${option.key}. ${option.text}`).join("\n") : "",
+          "",
+          `正确答案：${note.answer || q.answerText || ""}`,
+          note.explanation ? `\nAI解析：\n${note.explanation}` : ""
+        ].filter(Boolean).join("\n");
+      }).join("\n\n---\n\n");
+      const blob = new Blob([lines], { type: "text/markdown;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "毛概刷题笔记.md";
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }
+
+    function syncSnapshot() {
+      return {
+        favorites: store.favorites || [],
+        wrong: store.wrong || [],
+        notes: store.notes || [],
+        explanations: store.explanations || {},
+        attempts: store.attempts || {},
+        history: store.history || [],
+        lastSession: store.lastSession || null,
+        sessions: store.sessions || {}
+      };
+    }
+
+    function latestTime(value) {
+      return Date.parse(value || "") || 0;
+    }
+
+    function mergeRecordData(left = {}, right = {}) {
+      const union = (a, b) => [...new Set([...(Array.isArray(a) ? a : []), ...(Array.isArray(b) ? b : [])].filter(Boolean))];
+      const notes = new Map();
+      [...(Array.isArray(left.notes) ? left.notes : []), ...(Array.isArray(right.notes) ? right.notes : [])].forEach(note => {
+        if (!note) return;
+        const key = note.questionId || note.id;
+        const existing = notes.get(key);
+        if (!existing || latestTime(note.updatedAt || note.createdAt) >= latestTime(existing.updatedAt || existing.createdAt)) notes.set(key, note);
+      });
+
+      const attempts = { ...(left.attempts || {}) };
+      Object.entries(right.attempts || {}).forEach(([id, attempt]) => {
+        const existing = attempts[id];
+        if (!existing || latestTime(attempt.lastAt) >= latestTime(existing.lastAt)) {
+          attempts[id] = {
+            ...existing,
+            ...attempt,
+            times: Math.max(Number(existing?.times || 0), Number(attempt?.times || 0)),
+            correctTimes: Math.max(Number(existing?.correctTimes || 0), Number(attempt?.correctTimes || 0)),
+            wrongTimes: Math.max(Number(existing?.wrongTimes || 0), Number(attempt?.wrongTimes || 0))
+          };
+        }
+      });
+
+      const history = new Map();
+      [...(Array.isArray(left.history) ? left.history : []), ...(Array.isArray(right.history) ? right.history : [])].forEach(item => {
+        if (item) history.set(item.id || `${item.finishedAt}-${item.title}`, item);
+      });
+
+      const sessions = { ...(left.sessions || {}) };
+      Object.entries(right.sessions || {}).forEach(([key, item]) => {
+        const existing = sessions[key];
+        if (!existing || latestTime(item?.updatedAt || item?.startedAt) >= latestTime(existing?.updatedAt || existing?.startedAt)) sessions[key] = item;
+      });
+
+      const leftSessionTime = latestTime(left.lastSession?.updatedAt || left.lastSession?.finishedAt || left.lastSession?.startedAt) || Number(left.lastSession?.id || 0);
+      const rightSessionTime = latestTime(right.lastSession?.updatedAt || right.lastSession?.finishedAt || right.lastSession?.startedAt) || Number(right.lastSession?.id || 0);
+
+      return {
+        favorites: union(left.favorites, right.favorites),
+        wrong: union(left.wrong, right.wrong),
+        notes: [...notes.values()].sort((a, b) => latestTime(b.updatedAt || b.createdAt) - latestTime(a.updatedAt || a.createdAt)),
+        explanations: { ...(left.explanations || {}), ...(right.explanations || {}) },
+        attempts,
+        history: [...history.values()].sort((a, b) => latestTime(b.finishedAt) - latestTime(a.finishedAt)).slice(0, 30),
+        lastSession: rightSessionTime >= leftSessionTime ? (right.lastSession || left.lastSession || null) : (left.lastSession || right.lastSession || null),
+        sessions
+      };
+    }
+
+    function applyRecordData(data) {
+      const merged = mergeRecordData(syncSnapshot(), data || {});
+      store.favorites = merged.favorites;
+      store.wrong = merged.wrong;
+      store.notes = merged.notes;
+      store.explanations = merged.explanations;
+      store.attempts = merged.attempts;
+      store.history = merged.history;
+      store.lastSession = merged.lastSession;
+      store.sessions = merged.sessions || {};
+    }
+
+    function renderSync() {
+      state.view = "sync";
+      document.body.classList.remove("quiz-mode");
+      stopTicker();
+      updateHeader();
+      const loggedIn = Boolean(store.sync?.token);
+      document.getElementById("app").innerHTML = `
+        <section class="section section-pad">
+          <div class="quiz-top">
+            <button class="btn" type="button" onclick="renderHome()">返回</button>
+            <div class="quiz-title">
+              <h1>多端同步</h1>
+              <p>${loggedIn ? `当前账号：${esc(store.sync.username)} · ${store.sync.lastSyncAt ? `上次同步 ${new Date(store.sync.lastSyncAt).toLocaleString()}` : "尚未同步"}` : "注册或登录后，手机和电脑会合并同一份刷题记录。"}</p>
+            </div>
+          </div>
+          ${loggedIn ? renderSyncPanel() : renderAuthPanel()}
+        </section>
+      `;
+    }
+
+    function renderAuthPanel() {
+      return `
+        <div class="control-grid">
+          <div class="field">
+            <label>账号</label>
+            <input class="search-input" id="syncUsername" autocomplete="username" placeholder="3-32 位字母、数字或 @">
+          </div>
+          <div class="field">
+            <label>密码</label>
+            <input class="search-input" id="syncPassword" type="password" autocomplete="current-password" placeholder="至少 6 位">
+          </div>
+          <div class="field">
+            <label>操作</label>
+            <div class="action-row">
+              <button class="btn btn-primary" type="button" onclick="authAction('login')">登录</button>
+              <button class="btn" type="button" onclick="authAction('register')">注册</button>
+            </div>
+          </div>
+        </div>
+        <div class="feedback" style="display:block;margin-top:16px;">
+          密码只用于登录验证，服务端保存的是加盐哈希；刷题记录会保存到你的 Netlify Blobs 云端存储。
+        </div>
+      `;
+    }
+
+    function renderSyncPanel() {
+      return `
+        <div class="summary-panel">
+          ${summaryItem(Object.keys(store.attempts || {}).length, "已练题目")}
+          ${summaryItem(store.wrong.length, "错题")}
+          ${summaryItem(store.favorites.length, "收藏")}
+          ${summaryItem(store.notes.length, "笔记")}
+        </div>
+        <div class="action-row" style="margin-top: 16px;">
+          <button class="btn btn-primary" type="button" onclick="syncNow(true)" ${syncing ? "disabled" : ""}>${syncing ? "同步中..." : "立即同步"}</button>
+          <button class="btn ${store.sync.auto ? "btn-soft" : ""}" type="button" onclick="toggleAutoSync()">${store.sync.auto ? "自动同步已开" : "开启自动同步"}</button>
+          <button class="btn btn-danger" type="button" onclick="logoutSync()">退出登录</button>
+        </div>
+      `;
+    }
+
+    async function authAction(action) {
+      if (isStaticPagesHost()) {
+        showToast("\u5f53\u524d GitHub Pages \u9759\u6001\u7248\u4e0d\u652f\u6301\u8d26\u53f7\u540c\u6b65");
+        return;
+      }
+      const username = document.getElementById("syncUsername")?.value.trim();
+      const password = document.getElementById("syncPassword")?.value;
+      if (!username || !password) {
+        showToast("请输入账号和密码");
+        return;
+      }
+      syncing = true;
+      renderSync();
+      try {
+        const response = await fetch(`/api/auth/${action}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.error || "登录失败");
+        applyRecordData(data.data);
+        store.sync = { username: data.username, token: data.token, auto: true, lastSyncAt: new Date().toISOString() };
+        saveStore({ sync: false });
+        showToast(action === "register" ? "注册成功" : "登录成功");
+      } catch (error) {
+        showToast(error.message || "操作失败");
+      } finally {
+        syncing = false;
+        renderSync();
+      }
+    }
+
+    async function syncNow(manual = false) {
+      if (isStaticPagesHost()) {
+        if (manual) showToast("\u5f53\u524d GitHub Pages \u9759\u6001\u7248\u4e0d\u652f\u6301\u591a\u7aef\u540c\u6b65");
+        return;
+      }
+      if (!store.sync?.token) {
+        if (manual) showToast("请先登录同步账号");
+        return;
+      }
+      if (syncing) return;
+      syncing = true;
+      if (state.view === "sync") renderSync();
+      try {
+        const response = await fetch("/api/sync-records", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${store.sync.token}`
+          },
+          body: JSON.stringify({ data: syncSnapshot(), clientUpdatedAt: store.updatedAt })
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.error || "同步失败");
+        applyRecordData(data.data);
+        store.sync = { ...store.sync, username: data.username || store.sync.username, lastSyncAt: new Date().toISOString() };
+        saveStore({ sync: false });
+        if (manual) showToast("同步完成");
+      } catch (error) {
+        if (error.message.includes("登录已失效")) store.sync = null;
+        if (manual) showToast(error.message || "同步失败");
+        saveStore({ sync: false });
+      } finally {
+        syncing = false;
+        if (state.view === "sync") renderSync();
+      }
+    }
+
+    function scheduleAutoSync() {
+      if (syncing || !store.sync?.token || !store.sync.auto) return;
+      clearTimeout(syncTimer);
+      syncTimer = setTimeout(() => syncNow(false), 3000);
+    }
+
+    function toggleAutoSync() {
+      if (!store.sync) return;
+      store.sync.auto = !store.sync.auto;
+      saveStore({ sync: false });
+      if (store.sync.auto) scheduleAutoSync();
+      renderSync();
+    }
+
+    function logoutSync() {
+      if (!confirm("退出后本机记录仍保留，但不会继续同步。确定退出吗？")) return;
+      store.sync = null;
+      saveStore({ sync: false });
+      renderSync();
+    }
+
+    async function explainCurrent() {
+      const q = currentQuestion();
+      if (!q) return;
+      if (isStaticPagesHost()) {
+        showToast("\u5f53\u524d GitHub Pages \u9759\u6001\u7248\u4e0d\u652f\u6301 AI \u89e3\u6790");
+        return;
+      }
+      if (store.explanations[q.id]) {
+        showToast("已显示缓存解析");
+        renderQuiz();
+        return;
+      }
+      explaining = true;
+      renderQuiz();
+      try {
+        const response = await fetch("/api/explain-question", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            question: questionSnapshot(q),
+            userAnswer: storedAnswer(session.answers[q.id])
+          })
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.error || "解析失败");
+        store.explanations[q.id] = data.explanation;
+        const note = store.notes.find(item => item.questionId === q.id);
+        if (note) {
+          note.explanation = data.explanation;
+          note.updatedAt = new Date().toISOString();
+        }
+        saveStore();
+        showToast("解析完成");
+      } catch (error) {
+        showToast(error.message || "AI解析失败");
+      } finally {
+        explaining = false;
+        renderQuiz();
+      }
+    }
+
+    function finishSession() {
+      if (!session) return;
+      if (session.mode === "exam") {
+        const unanswered = session.questionIds.filter(id => !isAnswered(questionMap.get(id), session.answers[id])).length;
+        if (unanswered && !confirm(`还有 ${unanswered} 题未作答，确定交卷吗？`)) return;
+        session.questionIds.forEach(id => {
+          const q = questionMap.get(id);
+          const answer = session.answers[id];
+          const correct = scoreAnswer(q, answer);
+          session.submitted[id] = true;
+          session.results[id] = { correct, answer: storedAnswer(answer), at: Date.now() };
+          recordAttempt(q, answer, correct);
+        });
+      }
+      session.finishedAt = Date.now();
+      store.history.unshift({
+        id: session.id,
+        mode: session.mode,
+        title: session.title,
+        total: session.questionIds.length,
+        finishedAt: new Date().toISOString(),
+        ...countSessionResults()
+      });
+      store.history = store.history.slice(0, 20);
+      saveSession();
+      stopTicker();
+      renderResult();
+    }
+
+    function countSessionResults() {
+      if (!session) return { submitted: 0, correct: 0, wrong: 0, unanswered: 0 };
+      let submitted = 0;
+      let correct = 0;
+      let wrong = 0;
+      session.questionIds.forEach(id => {
+        const result = session.results[id];
+        if (result) {
+          submitted += 1;
+          if (result.correct) correct += 1;
+          else wrong += 1;
+        }
+      });
+      return { submitted, correct, wrong, unanswered: session.questionIds.length - submitted };
+    }
+
+    function renderResult() {
+      state.view = "result";
+      document.body.classList.remove("quiz-mode");
+      updateHeader();
+      const summary = countSessionResults();
+      const basis = session.mode === "exam" ? session.questionIds.length : Math.max(1, summary.submitted);
+      const percent = Math.round(summary.correct / basis * 100);
+      const wrongItems = session.questionIds
+        .map(id => ({ q: questionMap.get(id), result: session.results[id] }))
+        .filter(item => item.result && !item.result.correct);
+
+      document.getElementById("app").innerHTML = `
+        <section class="section section-pad">
+          <div class="result-hero">
+            <div class="score-ring" style="--score: ${percent}%">
+              <div>
+                <strong>${percent}</strong>
+                <span>得分</span>
+              </div>
+            </div>
+            <div>
+              <div class="quiz-title">
+                <h1>${esc(MODE_NAMES[session.mode])}结果</h1>
+                <p>${esc(session.title)} · 用时 ${elapsedText((session.finishedAt || Date.now()) - session.startedAt)}</p>
+              </div>
+              <div class="summary-panel" style="margin-top: 16px;">
+                ${summaryItem(session.questionIds.length, "总题数")}
+                ${summaryItem(summary.submitted, "已提交")}
+                ${summaryItem(summary.correct, "正确")}
+                ${summaryItem(summary.wrong, "错误")}
+              </div>
+              <div class="action-row" style="margin-top: 16px;">
+                <button class="btn btn-primary" type="button" onclick="restartCurrentSession()">再做一遍</button>
+                <button class="btn btn-soft" type="button" onclick="practiceWrongFromResult()" ${wrongItems.length ? "" : "disabled"}>重练错题</button>
+                <button class="btn" type="button" onclick="goHome(true)">返回首页</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section section-pad">
+          <div class="quiz-top">
+            <div class="quiz-title">
+              <h1>错题回顾</h1>
+              <p>${wrongItems.length ? `本轮共有 ${wrongItems.length} 道错题。` : "本轮没有错题。"}</p>
+            </div>
+          </div>
+          ${wrongItems.length ? `<div class="wrong-list">${wrongItems.map(renderWrongItem).join("")}</div>` : `<div class="empty">答题情况很好，当前没有需要回顾的错题。</div>`}
+        </section>
+      `;
+    }
+
+    function renderWrongItem(item) {
+      const userAnswer = item.result ? item.result.answer : "";
+      return `
+        <div class="wrong-item">
+          <span class="type-pill type-${item.q.type}">${esc(item.q.typeLabel)}</span>
+          <h3>${esc(item.q.stem)}</h3>
+          <p class="answer-line">你的答案：<strong>${esc(formatUserAnswer(item.q, userAnswer))}</strong></p>
+          <p class="answer-line">正确答案：<strong>${esc(formatCorrectAnswer(item.q))}</strong></p>
+        </div>
+      `;
+    }
+
+    function restartCurrentSession() {
+      const ids = session.questionIds.slice();
+      const questions = ids.map(id => questionMap.get(id)).filter(Boolean);
+      beginSession(session.random ? shuffle(questions) : questions, session);
+    }
+
+    function practiceWrongFromResult() {
+      const questions = session.questionIds
+        .map(id => ({ q: questionMap.get(id), result: session.results[id] }))
+        .filter(item => item.result && !item.result.correct)
+        .map(item => item.q);
+      beginSession(questions, { ...session, mode: "practice", random: false });
+    }
+
+    function formatCorrectAnswer(q) {
+      if (q.type === "single" || q.type === "multiple") {
+        return q.answer.split("").map(key => `${key}. ${optionText(q, key)}`).join("；");
+      }
+      return q.answer;
+    }
+
+    function formatUserAnswer(q, answer) {
+      if (!normalize(answer)) return "未作答";
+      if (q.type === "single" || q.type === "multiple") {
+        return String(answer).split("").map(key => `${key}. ${optionText(q, key) || key}`).join("；");
+      }
+      return answer;
+    }
+
+    function optionText(q, key) {
+      const option = q.options.find(item => item.key === key);
+      return option ? option.text : "";
+    }
+
+    function toggleFavorite(id) {
+      if (store.favorites.includes(id)) removeItem(store.favorites, id);
+      else uniquePush(store.favorites, id);
+      saveStore();
+      if (state.view === "quiz") renderQuiz();
+      else renderHome();
+    }
+
+    function toggleTheme() {
+      store.theme = (store.theme || "light") === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = store.theme;
+      saveStore();
+    }
+
+    async function promptInstall() {
+      if (!installPromptEvent) {
+        showToast("手机浏览器可通过菜单添加到主屏幕");
+        return;
+      }
+      installPromptEvent.prompt();
+      await installPromptEvent.userChoice;
+      installPromptEvent = null;
+      const button = document.getElementById("installButton");
+      if (button) button.hidden = true;
+    }
+
+    function resetLearningData() {
+      if (!confirm("确定清空练习记录、错题和收藏吗？")) return;
+      const theme = store.theme || "light";
+      store = { favorites: [], wrong: [], notes: [], explanations: {}, attempts: {}, history: [], lastSession: null, sessions: {}, sync: null, theme };
+      session = null;
+      saveStore();
+      renderHome();
+      showToast("学习记录已清空");
+    }
+
+    function goHome(clearSession = false) {
+      if (clearSession && session) {
+        session.finishedAt = session.finishedAt || Date.now();
+        saveSession();
+      } else if (session) {
+        saveSession();
+      }
+      renderHome();
+    }
+
+    function startTicker() {
+      stopTicker();
+      tickTimer = setInterval(updateTimerText, 1000);
+      updateTimerText();
+    }
+
+    function stopTicker() {
+      if (tickTimer) clearInterval(tickTimer);
+      tickTimer = null;
+    }
+
+    function updateTimerText() {
+      const timer = document.getElementById("timerText");
+      if (timer && session) timer.textContent = elapsedText(Date.now() - session.startedAt);
+    }
+
+    function elapsedText(ms) {
+      const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      const pad = number => String(number).padStart(2, "0");
+      return hours ? `${hours}:${pad(minutes)}:${pad(seconds)}` : `${minutes}:${pad(seconds)}`;
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
+    }
+  </script>
+</body>
+</html>
