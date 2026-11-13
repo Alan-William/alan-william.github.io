@@ -1,0 +1,17 @@
+{
+  "name": "Alan's Desk · 待办中心",
+  "short_name": "Alan's Desk",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "theme_color": "#263953",
+  "background_color": "#f5f7fc",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
