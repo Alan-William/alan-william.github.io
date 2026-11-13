@@ -79,14 +79,20 @@
     const finished=t.status==="done",p=priorities[t.priority]||priorities.medium,d=deadline(t);
     const command=finished?'把待办「'+t.title+'」（ID: '+t.id+'）重新设为待开始':'把待办「'+t.title+'」（ID: '+t.id+'）标记为完成';
     const url=safeUrl(t.link);
-    const tags=Array.isArray(t.tags)?t.tags.slice(0,4):[];
-    return '<article class="task '+(finished?"finished":"")+'"><div class="task-top"><h3>'+escapeHTML(t.title)+'</h3><span class="badge '+(finished?"done":escapeHTML(t.priority||"medium"))+'">'+(finished?"✓ 已完成":"● "+escapeHTML(p.label))+'</span></div>'+
-      (t.description?'<p class="description">'+escapeHTML(t.description)+'</p>':"")+
-      '<div class="meta"><span>'+escapeHTML(t.category||"其他")+'</span><span>·</span><span>'+escapeHTML(labels[t.status]||"待开始")+'</span><span>·</span><span class="due '+d.css+'">◷ '+escapeHTML(d.text)+'</span>'+
-      tags.map(tag=>'<span>#'+escapeHTML(tag)+'</span>').join("")+'</div>'+
+    const tags=Array.isArray(t.tags)?t.tags.slice(0,2):[];
+    return '<details class="task '+(finished?"finished":"")+'">'+
+      '<summary class="task-summary"><span class="task-check" aria-hidden="true">'+(finished?"✓":t.status==="doing"?"●":"□")+'</span>'+
+      '<span class="task-body"><span class="task-top"><strong class="task-title">'+escapeHTML(t.title)+'</strong>'+
+      '<span class="badge '+(finished?"done":escapeHTML(t.priority||"medium"))+'">'+(finished?"已完成":escapeHTML(p.label))+'</span></span>'+
+      '<span class="meta"><span>'+escapeHTML(t.category||"其他")+'</span><span class="meta-sep">·</span>'+
+      '<span class="due '+d.css+'">◷ '+escapeHTML(d.text)+'</span>'+
+      (t.status==="doing"?'<span class="state-doing">进行中</span>':"")+
+      tags.map(tag=>'<span>#'+escapeHTML(tag)+'</span>').join("")+'</span></span><span class="task-chevron" aria-hidden="true">⌄</span></summary>'+
+      '<div class="task-extra">'+
+      (t.description?'<p class="description">'+escapeHTML(t.description)+'</p>':'<p class="description quiet">暂无详细说明</p>')+
       subtaskProgress(t)+'<div class="task-foot">'+
       (url?'<a href="'+escapeHTML(url)+'" target="_blank" rel="noopener noreferrer">↗ 关联链接</a>':'<small>#'+escapeHTML(t.id)+'</small>')+
-      '<button type="button" data-command="'+escapeHTML(command)+'">'+(finished?"↶ 重新开始":"✓ 完成任务")+'</button></div></article>';
+      '<button type="button" data-command="'+escapeHTML(command)+'">'+(finished?"↶ 重新开始":"✓ 标记完成")+'</button></div></div></details>';
   }
   function renderList() {
     if(!state.loaded)return;
@@ -113,9 +119,12 @@
     const todo=arr.filter(t=>t.status==="todo").length,doing=arr.filter(t=>t.status==="doing").length,done=arr.filter(t=>t.status==="done").length,urgent=arr.filter(isUrgent).length;
     $("countTodo").textContent=todo;$("countDoing").textContent=doing;$("countDone").textContent=done;$("countUrgent").textContent=urgent;
     const percent=arr.length?Math.round(done/arr.length*100):0;
-    $("percent").textContent=percent+"%";$("ring").style.setProperty("--p",percent+"%");
-    $("heroOpen").textContent=(todo+doing)+" 件待推进";
-    $("heroUrgent").textContent=urgent?urgent+" 件需要优先处理":"先做最重要的一件事";
+    const percentage=$("percent"), ring=$("ring");
+    if(percentage) percentage.textContent=percent+"%";
+    if(ring) ring.style.setProperty("--p",percent+"%");
+    const heroOpen=$("heroOpen"), heroUrgent=$("heroUrgent");
+    if(heroOpen) heroOpen.textContent=(todo+doing)+" 件待推进";
+    if(heroUrgent) heroUrgent.textContent=urgent?urgent+" 件需要优先处理":"先做最重要的一件事";
   }
   function renderFocus() {
     const arr=sorted(state.tasks.filter(isUrgent),"smart").slice(0,4);
@@ -148,7 +157,8 @@
     } finally {$("refresh").disabled=false;}
   }
   function init() {
-    $("today").textContent=new Intl.DateTimeFormat("zh-CN",{month:"long",day:"numeric",weekday:"long"}).format(new Date())+" · TODAY AT A GLANCE";
+    const todayLabel=$("today");
+    if(todayLabel) todayLabel.textContent=new Intl.DateTimeFormat("zh-CN",{month:"long",day:"numeric",weekday:"long"}).format(new Date());
     $("search").addEventListener("input",e=>{state.query=e.target.value.trim().toLowerCase();renderList();});
     $("sort").addEventListener("change",e=>{state.sort=e.target.value;renderList();});
     $("statuses").querySelectorAll("[data-status]").forEach(btn=>btn.addEventListener("click",()=>{
