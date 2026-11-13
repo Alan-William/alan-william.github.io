@@ -27,6 +27,11 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
 
+  // The /todo/ dashboard must always fetch fresh HTML, JS and JSON.
+  // Preserve the existing quiz PWA caching policy for all other paths.
+  const url = new URL(event.request.url);
+  if (url.origin === self.location.origin && url.pathname.startsWith("/todo/")) return;
+
   event.respondWith(
     caches.match(event.request).then(cached => {
       if (cached) return cached;
