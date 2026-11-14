@@ -173,3 +173,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
  .toast{bottom:calc(66px + env(safe-area-inset-bottom))}
 }
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+/* V3: direct task completion on tap. The check is an actual button, not the details toggle. */
+.task-check{cursor:pointer;appearance:none;-webkit-appearance:none;font-family:inherit;transition:background .15s,border-color .15s,color .15s}
+.task-check:hover{border-color:#7296e9;background:#f1f5ff}
+.task-check.checked,.task.finished .task-check{color:#fff;background:#2b9e79;border-color:#2b9e79;font-size:14px}
+.task-summary{cursor:pointer}
+.task-check:focus-visible{outline:3px solid #97b2ff;outline-offset:2px}
