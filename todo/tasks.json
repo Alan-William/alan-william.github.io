@@ -1,5 +1,177 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-13T12:30:00Z",
-  "tasks": []
+  "updatedAt": "2026-11-14T03:02:56.704Z",
+  "tasks": [
+    {
+      "id": "task-20261114-001",
+      "title": "完成形势与政策期中作业",
+      "description": "11月16日晚前完成并提交。",
+      "category": "课程",
+      "priority": "high",
+      "status": "todo",
+      "due": "2026-11-16",
+      "tags": [
+        "形势与政策",
+        "作业"
+      ],
+      "createdAt": "2026-11-14T03:02:56.704Z",
+      "updatedAt": "2026-11-14T03:02:56.704Z",
+      "checklist": [],
+      "link": ""
+    },
+    {
+      "id": "task-20261114-002",
+      "title": "完成形势与政策结课作业",
+      "description": "11月16日晚前完成并提交。",
+      "category": "课程",
+      "priority": "high",
+      "status": "todo",
+      "due": "2026-11-16",
+      "tags": [
+        "形势与政策",
+        "作业"
+      ],
+      "createdAt": "2026-11-14T03:02:56.704Z",
+      "updatedAt": "2026-11-14T03:02:56.704Z",
+      "checklist": [],
+      "link": ""
+    },
+    {
+      "id": "task-20261114-003",
+      "title": "信号分析与处理：雨课堂题目全部做完",
+      "description": "须在11月21日（周六）考试之前完成；看板暂设11月20日为完成日，预留考前时间。",
+      "category": "课程",
+      "priority": "high",
+      "status": "todo",
+      "due": "2026-11-20",
+      "tags": [
+        "信号分析与处理",
+        "雨课堂",
+        "考前"
+      ],
+      "createdAt": "2026-11-14T03:02:56.704Z",
+      "updatedAt": "2026-11-14T03:02:56.704Z",
+      "checklist": [],
+      "link": ""
+    },
+    {
+      "id": "task-20261114-004",
+      "title": "信号分析与处理考试",
+      "description": "考试日期：11月21日（周六）。与雨课堂做题单独记录，提前安排复习。",
+      "category": "课程",
+      "priority": "high",
+      "status": "todo",
+      "due": "2026-11-21",
+      "tags": [
+        "信号分析与处理",
+        "考试"
+      ],
+      "createdAt": "2026-11-14T03:02:56.704Z",
+      "updatedAt": "2026-11-14T03:02:56.704Z",
+      "checklist": [],
+      "link": ""
+    },
+    {
+      "id": "task-20261114-005",
+      "title": "习近平新时代中国特色社会主义思想概论考试",
+      "description": "11月22日（周日）考试，提前安排复习。",
+      "category": "课程",
+      "priority": "high",
+      "status": "todo",
+      "due": "2026-11-22",
+      "tags": [
+        "习概",
+        "考试"
+      ],
+      "createdAt": "2026-11-14T03:02:56.704Z",
+      "updatedAt": "2026-11-14T03:02:56.704Z",
+      "checklist": [],
+      "link": ""
+    },
+    {
+      "id": "task-20261114-006",
+      "title": "导出习概题库",
+      "description": "从现有题库导出并整理；未指定截止日期。",
+      "category": "课程",
+      "priority": "medium",
+      "status": "todo",
+      "due": null,
+      "tags": [
+        "习概",
+        "题库"
+      ],
+      "createdAt": "2026-11-14T03:02:56.704Z",
+      "updatedAt": "2026-11-14T03:02:56.704Z",
+      "checklist": [],
+      "link": ""
+    },
+    {
+      "id": "task-20261114-007",
+      "title": "完成并提交电机实验报告",
+      "description": "11月11日（周三）考试结束后两周内提交，按此计算截止11月25日。",
+      "category": "课程",
+      "priority": "medium",
+      "status": "todo",
+      "due": "2026-11-25",
+      "tags": [
+        "电机",
+        "实验报告"
+      ],
+      "createdAt": "2026-11-14T03:02:56.704Z",
+      "updatedAt": "2026-11-14T03:02:56.704Z",
+      "checklist": [],
+      "link": ""
+    },
+    {
+      "id": "task-20261114-008",
+      "title": "完成并提交电机作业",
+      "description": "按同样的两周提交期限安排：11月11日（周三）起两周内，截止11月25日。",
+      "category": "课程",
+      "priority": "medium",
+      "status": "todo",
+      "due": "2026-11-25",
+      "tags": [
+        "电机",
+        "作业"
+      ],
+      "createdAt": "2026-11-14T03:02:56.704Z",
+      "updatedAt": "2026-11-14T03:02:56.704Z",
+      "checklist": [],
+      "link": ""
+    },
+    {
+      "id": "task-20261114-009",
+      "title": "完成《丝绸之路上的民族》课程作业",
+      "description": "需要完成课程布置的作业；未指定截止日期。",
+      "category": "课程",
+      "priority": "medium",
+      "status": "todo",
+      "due": null,
+      "tags": [
+        "丝绸之路上的民族",
+        "作业"
+      ],
+      "createdAt": "2026-11-14T03:02:56.704Z",
+      "updatedAt": "2026-11-14T03:02:56.704Z",
+      "checklist": [],
+      "link": ""
+    },
+    {
+      "id": "task-20261114-010",
+      "title": "完成《双语梦溪笔谈》课程作业",
+      "description": "需要完成课程布置的作业；未指定截止日期。",
+      "category": "课程",
+      "priority": "medium",
+      "status": "todo",
+      "due": null,
+      "tags": [
+        "双语梦溪笔谈",
+        "作业"
+      ],
+      "createdAt": "2026-11-14T03:02:56.704Z",
+      "updatedAt": "2026-11-14T03:02:56.704Z",
+      "checklist": [],
+      "link": ""
+    }
+  ]
 }
