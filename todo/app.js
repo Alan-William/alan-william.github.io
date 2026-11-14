@@ -5,6 +5,34 @@
   const labels = {todo:"待开始",doing:"进行中",done:"已完成",cancelled:"已取消"};
   const priorities = {high:{label:"高优先",rank:0},medium:{label:"中优先",rank:1},low:{label:"低优先",rank:2}};
   const state = {tasks:[],status:"active",category:"全部分类",sort:"smart",query:"",loaded:false};
+  const STORAGE_KEY = "alan-desk-task-status-v1";
+  let localStatuses = {};
+  let storageAvailable = true;
+  try {
+    const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    if(raw && typeof raw === "object" && !Array.isArray(raw)) localStatuses = raw;
+  } catch (_) { storageAvailable = false; }
+  function effectiveStatus(task) {
+    const override = localStatuses[task.id];
+    return override && ["todo","doing","done"].includes(override.status) ? override.status : task.status;
+  }
+  function applyLocalStatuses() {
+    state.tasks.forEach(t => { t.status = effectiveStatus(t); });
+  }
+  function saveStatus(taskId, newStatus) {
+    const next = {...localStatuses, [taskId]:{status:newStatus, changedAt:new Date().toISOString()}};
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); localStatuses = next; return true; }
+    catch (_) {storageAvailable = false; return false;}
+  }
+  function toggleTask(taskId) {
+    const task = state.tasks.find(t => t.id === taskId);
+    if (!task) return;
+    const nextStatus = task.status === "done" ? "todo" : "done";
+    if (!saveStatus(task.id,nextStatus)) { toast("浏览器阻止本地保存，请检查隐私/无痕模式设置"); return; }
+    task.status = nextStatus;
+    renderStats(); renderFocus(); renderList();
+    toast(nextStatus === "done" ? "✓ 已完成，已保存在本机" : "↶ 已恢复为待开始");
+  }
   const escapeHTML = x => String(x == null ? "" : x).replace(/[&<>"']/g,c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const isOpen = t => t.status!=="done"&&t.status!=="cancelled";
   const rank = t => (priorities[t.priority]||priorities.medium).rank;
@@ -77,11 +105,11 @@
   }
   function taskCard(t) {
     const finished=t.status==="done",p=priorities[t.priority]||priorities.medium,d=deadline(t);
-    const command=finished?'把待办「'+t.title+'」（ID: '+t.id+'）重新设为待开始':'把待办「'+t.title+'」（ID: '+t.id+'）标记为完成';
+    const command = finished ? "恢复为待开始" : "标记完成";
     const url=safeUrl(t.link);
     const tags=Array.isArray(t.tags)?t.tags.slice(0,2):[];
     return '<details class="task '+(finished?"finished":"")+'">'+
-      '<summary class="task-summary"><span class="task-check" aria-hidden="true">'+(finished?"✓":t.status==="doing"?"●":"□")+'</span>'+
+      '<summary class="task-summary"><button type="button" class="task-check '+(finished?'checked':'')+'" data-toggle="'+escapeHTML(t.id)+'" aria-label="'+(finished?'取消完成：':'标记完成：')+escapeHTML(t.title)+'" aria-pressed="'+finished+'">'+(finished?"✓":"")+'</button>'+
       '<span class="task-body"><span class="task-top"><strong class="task-title">'+escapeHTML(t.title)+'</strong>'+
       '<span class="badge '+(finished?"done":escapeHTML(t.priority||"medium"))+'">'+(finished?"已完成":escapeHTML(p.label))+'</span></span>'+
       '<span class="meta"><span>'+escapeHTML(t.category||"其他")+'</span><span class="meta-sep">·</span>'+
@@ -92,7 +120,7 @@
       (t.description?'<p class="description">'+escapeHTML(t.description)+'</p>':'<p class="description quiet">暂无详细说明</p>')+
       subtaskProgress(t)+'<div class="task-foot">'+
       (url?'<a href="'+escapeHTML(url)+'" target="_blank" rel="noopener noreferrer">↗ 关联链接</a>':'<small>#'+escapeHTML(t.id)+'</small>')+
-      '<button type="button" data-command="'+escapeHTML(command)+'">'+(finished?"↶ 重新开始":"✓ 标记完成")+'</button></div></div></details>';
+      '<button type="button" data-toggle="'+escapeHTML(t.id)+'">'+command+'</button></div></div></details>';
   }
   function renderList() {
     if(!state.loaded)return;
@@ -104,8 +132,10 @@
     $("visibleCount").textContent=tasks.length+" 项";
     if(tasks.length) {
       $("list").innerHTML=tasks.map(taskCard).join("");
-      $("list").querySelectorAll("[data-command]").forEach(btn=>btn.addEventListener("click",async()=>{
-        toast(await copy(btn.dataset.command)?"已复制修改指令，请粘贴到 ChatGPT":"复制失败，请直接在 ChatGPT 告诉我");
+      $("list").querySelectorAll("[data-toggle]").forEach(btn=>btn.addEventListener("click",event=>{
+        event.preventDefault();
+        event.stopPropagation();
+        toggleTask(btn.dataset.toggle);
       }));
     } else {
       const blank=!state.tasks.length;
@@ -146,7 +176,8 @@
         priority:t.priority||"medium",due:t.due||"",link:t.link||"",tags:t.tags||[],checklist:t.checklist||[],
         createdAt:t.createdAt||"",updatedAt:t.updatedAt||""
       }));
-      state.loaded=true;render();$("statusText").textContent="已同步 GitHub";
+      applyLocalStatuses();
+      state.loaded=true;render();$("statusText").textContent=storageAvailable?"清单已更新 · 完成状态保存在本机":"完成状态无法持久保存";
       const date=data.updatedAt?new Date(data.updatedAt):null;
       $("updated").textContent=date&&!Number.isNaN(date.getTime())?date.toLocaleString("zh-CN",{year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}):"未知";
       if(!silent)toast("已获取最新任务");
@@ -178,6 +209,14 @@
     renderCategories();load(true);
     window.setInterval(()=>{if(!document.hidden)load(true);},300000);
     document.addEventListener("visibilitychange",()=>{if(!document.hidden)load(true);});
+    window.addEventListener("storage",event=>{
+      if(event.key!==STORAGE_KEY) return;
+      try {
+        const incoming=JSON.parse(event.newValue||"{}");
+        localStatuses=incoming&&typeof incoming==="object"&&!Array.isArray(incoming)?incoming:{};
+        load(true);
+      } catch (_) {}
+    });
   }
   init();
 })();
